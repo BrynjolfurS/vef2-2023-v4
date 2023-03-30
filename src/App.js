@@ -1,25 +1,22 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import { Route,Routes } from 'react-router-dom';
+import { Departments } from './components/departments/Departments';
+import { Department } from './components/departments/Department';
+import { Courses } from './components/courses/Courses';
+import { Layout } from './components/layout/Layout';
 
-function App() {
+export default function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout title="Kennsluskrá" footer={
+      <p>Vefforritun 2 - 2023 - Verkefni 4</p>
+    }>
+      <Routes>
+          <Route exact path='/' element={<Departments/>}/>
+          <Route path="/:dptSlug" element={<Department />}/>
+          <Route path="/:dptSlug/courses" element={<Courses />}/>
+       </Routes>
+    </Layout>
   );
 }
-
-export default App;

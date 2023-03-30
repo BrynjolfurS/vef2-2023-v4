@@ -1,0 +1,63 @@
+/* Courses */
+
+.courses {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.course_list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 60%;
+}
+
+.course_list_item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #dddcdc;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.course_title {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #4c4c4c;
+    margin-bottom: 10px;
+}
+
+.course_units,
+.course_semester,
+.course_level {
+    font-size: 1.1em;
+    color: #4c4c4c;
+    margin-bottom: 5px;
+}
+
+.course_url {
+    font-size: 1.1em;
+    color: #4c4c4c;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: color 0.3s;
+    border-bottom: 1px #3a3a3a;
+}
+
+.course_url:hover {
+    color: #777676;
+}
+
+.newCourse_form {
+    margin-bottom: 20px;
+}
