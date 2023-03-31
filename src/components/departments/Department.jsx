@@ -2,30 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import './Department.css';
 
-// process.env.REACT_APP_LOCAL_API_BASE_URL + 
-const apiUrl = 'http://localhost:3001/departments';
+const apiUrl = process.env.REACT_APP_PUBLIC_API_BASE_URL;
+//const apiUrl = 'http://localhost:3001/departments';
 
 
 export function Department() {
-    const [department, setDepartment] = useState({
-        title : '',
-        description : '',
-    });
+    const [department, setDepartment] = useState({});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [URL, setURL] = useState(apiUrl);
     const [state, setState] = useState('');
-    let { dptSlug } = useParams();
 
+    let { dptSlug } = useParams();
+    const dptUrl = `${apiUrl}/departments/${dptSlug}`;
    
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            setURL(`${apiUrl}/${dptSlug}`);
             let json;
     
             try {
-                const result = await fetch(URL);
+                const result = await fetch(dptUrl);
     
                 if (!result.ok) {
                     throw new Error('result not ok');
@@ -41,12 +37,11 @@ export function Department() {
             setDepartment(json);
         }
         fetchData();
-    }, [URL]);
+    }, []);
 
-    async function deleteDepartment(slug) {
-        const url = `${apiUrl}/${slug}`
+    async function deleteDepartment() {
         try {
-            const response = await fetch(url, {
+            const response = await fetch(dptUrl, {
                 method: 'DELETE'
             });
             if (!response.ok) {
@@ -79,9 +74,11 @@ export function Department() {
             <p className='department_description'>{department.description}</p>
             <Link className='department_courses_link' to={`/${department.slug}/courses`}>Áfangar deildar</Link>
             <div>
-                <button className='department_delete_button' onClick={() => deleteDepartment(department.slug)}>
+                <button className='department_delete_button' onClick={() => deleteDepartment()}>
                    Eyða deild
                 </button>
+                {state === 'failed' && (<h3>Ekki tókst að eyða deild</h3>)}
+                {state === 'success' && (<h3>Deild hefur verið eytt</h3>)}
             </div>
             
         </section>

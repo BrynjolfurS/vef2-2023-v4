@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './Department.css';
 
-const apiUrl = 'http://localhost:3001/departments';
+const apiUrl = process.env.REACT_APP_PUBLIC_API_BASE_URL;
+//const apiUrl = 'http://localhost:3001/departments';
 
 export function DepartmentForm() {
     const [state, setState] = useState('empty');
@@ -34,7 +35,7 @@ export function DepartmentForm() {
                 description: dpDescription
             };
 
-            const response = await fetch(apiUrl, {
+            const response = await fetch(`${apiUrl}/departments`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -70,7 +71,8 @@ export function DepartmentForm() {
             </div>
             <button className='form_submit_button'>Senda</button>
             {state === 'success' && (<h3>Deild var búin til</h3>)}
-            {state === 'failed' && (<><h3>Ekki tókst að búa til nýja deild</h3>
+            {state === 'failed' && (
+            <><h3>Ekki tókst að búa til nýja deild</h3>
                 <p>Villur:</p>
                 <ul>
                     {errors.map((error, i) => {

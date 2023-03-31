@@ -3,7 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import { CourseForm } from './CourseForm';
 import './Courses.css';
 
-const apiUrl = 'http://localhost:3001/departments';
+const apiUrl = process.env.REACT_APP_PUBLIC_API_BASE_URL;
+//const apiUrl = 'http://localhost:3001/departments';
 
 export function Courses() {
     const [courses, setCourses] = useState([]);
@@ -11,7 +12,7 @@ export function Courses() {
     const [error, setError] = useState(null);
 
     let { dptSlug } = useParams();
-    const courseUrl = `${apiUrl}/${dptSlug}/courses`;
+    const courseUrl = `${apiUrl}/departments/${dptSlug}/courses`;
     console.log(courseUrl);
 
     useEffect(() => {

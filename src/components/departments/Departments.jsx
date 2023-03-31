@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { DepartmentForm } from './DepartmentForm';
 import './Department.css';
 
-// process.env.REACT_APP_LOCAL_API_BASE_URL + 
-const apiUrl = 'http://localhost:3001/departments';
+const apiUrl = process.env.REACT_APP_PUBLIC_API_BASE_URL; 
+//const apiUrl = 'http://localhost:3001/departments';
 
 export function Departments() {
     const [departments, setDepartments] = useState([]);
@@ -17,7 +17,7 @@ export function Departments() {
             let json;
 
             try {
-                const result = await fetch(apiUrl);
+                const result = await fetch(`${apiUrl}/departments`);
 
                 if (!result.ok) {
                     throw new Error('result not ok');

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './Courses.css';
 
-const apiUrl = 'http://localhost:3001/departments';
 
 export function CourseForm( {url} ) {
     const [state, setState] = useState('empty');
@@ -28,13 +27,12 @@ export function CourseForm( {url} ) {
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        setCourse(course.url = 'https://hi.is/')
         createCourse(course);
     }
 
     async function createCourse(newCourse) {
         try {
-            const response = await fetch(apiUrl, {
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -79,6 +77,10 @@ export function CourseForm( {url} ) {
             <div className='form_input'>
                 <label className='form_input_label' for="courseLevel">Námsstig: </label>
                 <input className='form_input_textArea' id="courseLevel" type="text" name="level" value={course.level} onChange={handleInputChange}/>
+            </div>
+            <div className='form_input'>
+                <label className='form_input_label' for="courseUrl">Slóð: </label>
+                <input className='form_input_textArea' id="courseUrl" type="text" name="url" value={course.url} onChange={handleInputChange}/>
             </div>
             <button className='form_submit_button'>Senda</button>
             {state === 'success' && (<h3>Áfangi var búin til</h3>)}
