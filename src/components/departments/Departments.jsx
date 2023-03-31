@@ -7,9 +7,10 @@ const apiUrl = process.env.REACT_APP_PUBLIC_API_BASE_URL;
 //const apiUrl = 'http://localhost:3001/departments';
 
 export function Departments() {
+    const [state, setState] = useState('empty');
     const [departments, setDepartments] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [errors, setErrors] = useState(null);
 
     useEffect(() => {
         async function fetchData() {
@@ -20,13 +21,18 @@ export function Departments() {
                 const result = await fetch(`${apiUrl}/departments`);
 
                 if (!result.ok) {
-                    throw new Error('result not ok');
+                    if (result.status >= 400 && result.status < 500) {
+                        const responseJson = await result.json();
+                        setErrors(responseJson.errors);
+                        setState('failed');
+                    }
+                } else {
+                    json = await result.json();
+                    setState('success');
                 }
-                json = await result.json();
             } catch (e) {
-                console.warn('unable to fetch departments', e);
-                setError('Tókst ekki að sækja deildir');
-                return;
+                setState('failed');
+                console.warn('error creating course: ', e)
             } finally {
                 setLoading(false);
             }
@@ -35,12 +41,6 @@ export function Departments() {
         fetchData();
     }, []);
 
-    if (error) {
-        return (
-            <p>Villa kom upp: {error}</p>
-        );
-    }
-
     if (loading) {
         return (
             <p>Sæki gögn...</p>
@@ -48,7 +48,20 @@ export function Departments() {
     }
 
     return (
-        <section className='departments'>
+        <>
+        {state === 'failed' && (
+            <><h3>Ekki tókst að sækja deildir</h3>
+                <p>Villur:</p>
+                <ul>
+                    {errors.map((error, i) => {
+                        return (
+                            <li key={i}>{error.msg}</li>
+                        )
+                    })}
+                </ul>
+            </>)}
+        {state === 'success' && (
+            <section className='departments'>
             <ul className='department_list'>
                 {departments.map((department) => {
                     return (
@@ -62,5 +75,7 @@ export function Departments() {
             </ul>
             <DepartmentForm />
         </section>
+        )}
+        </>
     )
 }
